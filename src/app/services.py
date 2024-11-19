@@ -51,3 +51,45 @@ async def upload_csv_to_database(file, db: Session):
     except IntegrityError:
         db.rollback()
         raise HTTPException(status_code=400, detail="IntegrityError: Duplicate entry")
+    
+# Add new employees
+async def create_employees(
+    employees: List[_schemas.EmployeesCreate], db: Session
+) -> _schemas.Employees:
+    employee_objects = [_models.Employees(**employee.model_dump()) for employee in employees]
+    db.add_all(employee_objects)
+    db.commit()    
+    
+    # Refresh each individual object to update its state from the database
+    for employee in employee_objects:
+        db.refresh(employee)
+    
+    return [_schemas.Employees.model_validate(employee, from_attributes=True) for employee in employee_objects]
+
+# Add new departments
+async def create_departments(
+    departments: List[_schemas.DepartmentCreate], db: Session
+) -> _schemas.Department:
+    departments_objects = [_models.Departments(**department.model_dump()) for department in departments]
+    db.add_all(departments_objects)
+    db.commit()    
+    
+    # Refresh each individual object to update its state from the database
+    for department in departments_objects:
+        db.refresh(department)
+    
+    return [_schemas.Department.model_validate(department, from_attributes=True) for department in departments_objects]
+
+# Add new jobs
+async def create_jobs(
+    jobs: List[_schemas.JobCreate], db: Session
+) -> _schemas.Department:
+    jobs_objects = [_models.Jobs(**job.model_dump()) for job in jobs]
+    db.add_all(jobs_objects)
+    db.commit()    
+    
+    # Refresh each individual object to update its state from the database
+    for job in jobs_objects:
+        db.refresh(job)
+    
+    return [_schemas.Job.model_validate(job, from_attributes=True) for job in jobs_objects]
