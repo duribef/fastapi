@@ -47,3 +47,9 @@ class DropdownOptions(str, Enum):
     hired_employees = "hired_employees"
     jobs = "jobs"
     department = "departments"
+
+class Token(BaseModel):
+    access_token: str
+
+class TokenData(BaseModel):
+    id: Optional[str] = None
