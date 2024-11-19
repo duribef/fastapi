@@ -1,11 +1,10 @@
 from enum import Enum
-from pydantic import Field
+from pydantic import BaseModel, Field
 from typing_extensions import Annotated
 from typing import Optional
-from pydantic_avro.base import AvroBase
 from datetime import datetime
 
-class EmployeesBase(AvroBase):
+class EmployeesBase(BaseModel):
     name: Optional[Annotated[str, Field(strict=False)]]  
     datetime: Optional[Annotated[datetime, Field(strict=False)]] 
     department_id: Optional[Annotated[int, Field(strict=False, gt=0)]]
@@ -20,7 +19,7 @@ class Employees(EmployeesBase):
     class Config:
         orm_mode = True
 
-class JobBase(AvroBase):
+class JobBase(BaseModel):
     __tablename__ = 'jobs'
     job: Optional[Annotated[str, Field(strict=False)]]
 
@@ -32,7 +31,7 @@ class Job(JobBase):
     class Config:
         orm_mode = True
 
-class DepartmentBase(AvroBase):
+class DepartmentBase(BaseModel):
     __tablename__ = 'department'
     department: Optional[Annotated[str, Field(strict=False)]]
 
