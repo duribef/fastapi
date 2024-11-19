@@ -1,0 +1,6 @@
+fastapi==0.110.0
+uvicorn==0.29.0
+SQLAlchemy==2.0.28
+cloud-sql-python-connector==1.8.0
+psycopg2-binary==2.9.9
+pg8000==1.31.2
