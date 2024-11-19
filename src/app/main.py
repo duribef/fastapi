@@ -67,3 +67,22 @@ async def create_jobs(
     if len(jobs) > 1000:
         raise HTTPException(status_code=400, detail="Maximum batch size is 1000")
     return await _services.create_jobs(jobs=jobs, db=db)
+
+# Challenge 2
+@app.get("/api/metric1/")
+async def metric1(
+    db: Session = Depends(_services.get_db),
+    current_user: int = Depends(_auth.get_current_user)):
+    try:
+        return await _services.metric1(db)
+    except Exception as e:
+            raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+    
+@app.get("/api/metric2/")
+async def metric1(
+    db: Session = Depends(_services.get_db),
+    current_user: int = Depends(_auth.get_current_user)):
+    try:
+        return await _services.metric2(db)
+    except Exception as e:
+            raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
